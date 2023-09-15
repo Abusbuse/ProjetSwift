@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GameView: View {
+    @StateObject private var game = Jeu2048()
+    @StateObject private var swipeGestion = SwipeGestion()
     var body: some View {
         // Homepage (Title at the top, play button in the middle, footer at the bottom)
         VStack(spacing: 20) {
