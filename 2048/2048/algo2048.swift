@@ -26,19 +26,15 @@ class Jeu2048 {
         }
     }
 
-    // fonction qui permet de faire apparaitre une tuile de valeur 2 ou 4 aléatoirement
+    // fonction qui permet de faire apparaitre 2 tuiles de valeur 2 ou 4 aléatoirement
     func generateRandomTuile() {
         var row = Int.random(in: 0..<grideSize)
         var col = Int.random(in: 0..<grideSize)
-
         while grid[row][col].value != 0 {
             row = Int.random(in: 0..<grideSize)
             col = Int.random(in: 0..<grideSize)
         }
-
-        let value = Int.random(in: 0..<10) == 0 ? 4 : 2
-        grid[row][col].value = value
-        grid[row][col].tuileEvo = true
+        grid[row][col].value = Int.random(in: 1..<3) * 2
     }
 
     // Fonction qui permet de gérer le mouvement dans les 4 directions
@@ -46,13 +42,20 @@ class Jeu2048 {
         switch direction {
         case .up:
             moveUp()
+            generateRandomTuile()
         case .down:
             moveDown()
+            generateRandomTuile()
         case .left:
             moveLeft()
+            generateRandomTuile()
         case .right:
             moveRight()
+            generateRandomTuile()
+        default:
+            break
         }
+
     }
 
     // Fonction qui va déplacer les tuiles vers le haut
@@ -155,11 +158,12 @@ class Jeu2048 {
         }
     }
 
-    // Fonction qui fusionner les tuiles
+    // Fonction qui fusionner les tuiles (si et seulement si elles ont la même valeur)
     func mergeTuile(row: Int, col: Int, nextRow: Int, nextCol: Int) {
-        grid[row][col].value *= 2
-        grid[row][col].tuileEvo = true
-        grid[nextRow][nextCol].value = 0
+        grid[nextRow][nextCol].value *= 2
+        grid[nextRow][nextCol].tuileEvo = true
+        grid[row][col].value = 0
+        score += grid[nextRow][nextCol].value
     }
 
     // Fonction qui permet de savoir si le joueur a gagner
