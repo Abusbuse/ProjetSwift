@@ -15,7 +15,7 @@ struct Tuile {
 class Jeu2048 {
     let grideSize = 4
     var grid: [[Tuile]] = []
-    var score = 0
+    var score: Int = 0
     
     init() {
         for _ in 0..<grideSize {
@@ -53,8 +53,6 @@ class Jeu2048 {
         case .right:
             moveRight()
             generateRandomTuile()
-        default:
-            break
         }
 
     }
