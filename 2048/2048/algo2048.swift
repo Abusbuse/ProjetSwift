@@ -6,16 +6,17 @@
 //
 
 import Foundation
+import Combine
 
 struct Tuile {
     var value: Int
     var tuileEvo: Bool
 }
 
-class Jeu2048 {
+class Jeu2048: ObservableObject {
     let grideSize = 4
-    var grid: [[Tuile]] = []
-    var score: Int = 0
+    @Published var grid: [[Tuile]] = []
+    @Published var score: Int = 0
     
     init() {
         for _ in 0..<grideSize {

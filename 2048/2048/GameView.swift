@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct GameView: View {
+    @StateObject private var game = Jeu2048()
+    @StateObject private var swipeGestion = SwipeGestion()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+  
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
