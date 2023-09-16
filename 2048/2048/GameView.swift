@@ -10,6 +10,48 @@ import SwiftUI
 struct GameView: View {
     @StateObject private var game = Jeu2048();
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    private func tuileCouleur(value: Int) -> Color {
+        switch value {
+            case 2:
+                //#fff3ed
+                return Color(UIColor(red: 1.00, green: 0.95, blue: 0.93, alpha: 1.00))
+            case 4:
+                //#ffe3d4
+                return Color(UIColor(red: 1.00, green: 0.89, blue: 0.83, alpha: 1.00))
+            case 8:
+                //#ffc2a9
+                return Color(UIColor(red: 1.00, green: 0.76, blue: 0.66, alpha: 1.00))
+            case 16:
+                //#ff9e7a
+                return Color(UIColor(red: 1.00, green: 0.62, blue: 0.48, alpha: 1.00))
+            case 32:
+                //#fe6339
+                return Color(UIColor(red: 0.99, green: 0.39, blue: 0.22, alpha: 1.00))
+            case 64:
+                //#fc3a13
+                return Color(UIColor(red: 0.99, green: 0.23, blue: 0.07, alpha: 1.00))
+            case 128:
+                //#ed2009
+                return Color(UIColor(red: 0.93, green: 0.13, blue: 0.04, alpha: 1.00))
+            case 256:
+                //#c51309
+                return Color(UIColor(red: 0.77, green: 0.08, blue: 0.04, alpha: 1.00))
+            case 512:
+                //#9c1110
+                return Color(UIColor(red: 0.61, green: 0.07, blue: 0.06, alpha: 1.00))
+            case 1024:
+                //#9c1110
+                return Color(UIColor(red: 0.61, green: 0.07, blue: 0.06, alpha: 1.00))
+            case 2048:
+                //#440607
+                return Color(UIColor(red: 0.27, green: 0.02, blue: 0.03, alpha: 1.00))
+            default:
+                //Grey
+                return Color(UIColor(red: 0.76, green: 0.76, blue: 0.76, alpha: 1.00))
+
+        }
+    }
   
     var body: some View {
         NavigationView {
@@ -35,12 +77,13 @@ struct GameView: View {
                                     x in
                                     ZStack {
                                         Rectangle()
-                                            .foregroundColor(Color(UIColor(red: 0.76, green: 0.76, blue: 0.76, alpha: 1.00)))
+                                            .foregroundColor(tuileCouleur(value: game.grid[y][x].value))
                                             .frame(width: 70, height: 70)
                                             .cornerRadius(5)
                                             .layoutPriority(1)
                                         if (game.grid[y][x].value != 0) {
                                             Text(String(game.grid[y][x].value))
+                                            .foregroundColor(game.grid[y][x].value == 64 ? Color.white : Color.black)
                                         }
                                     }
                                 }
