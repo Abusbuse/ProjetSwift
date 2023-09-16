@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GameView: View {
+    @StateObject private var game = Jeu2048();
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
@@ -28,18 +29,36 @@ struct GameView: View {
                     Spacer()
                     VStack(spacing: 1) {
                         ForEach(0..<4) {
-                            _ in
+                            y in
                             HStack(spacing: 1) {
                                 ForEach(0..<4) {
-                                    __ in
-                                    Rectangle()
-                                        .foregroundColor(Color(UIColor(red: 0.76, green: 0.76, blue: 0.76, alpha: 1.00)))
-                                        .frame(width: 70, height: 70)
-                                        .cornerRadius(5)
+                                    x in
+                                    ZStack {
+                                        Rectangle()
+                                            .foregroundColor(Color(UIColor(red: 0.76, green: 0.76, blue: 0.76, alpha: 1.00)))
+                                            .frame(width: 70, height: 70)
+                                            .cornerRadius(5)
+                                            .layoutPriority(1)
+                                        if (game.grid[y][x].value != 0) {
+                                            Text(String(game.grid[y][x].value))
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
+                    }.onAppear {
+                        game.reset()
+                    }.gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+                        .onEnded { value in
+                            print(value.translation)
+                            switch (value.translation.width, value.translation.height) {
+                                case (...0, -30...30):  game.move(direction: .left)
+                                case (0..., -30...30):  game.move(direction: .right)
+                                case (-100...100, ...0):  game.move(direction: .up)
+                                case (-100...100, 0...):  game.move(direction: .down)
+                                default: break
+                            }
+                    })
                     Spacer()
                 }
                 .background(
@@ -62,7 +81,7 @@ struct GameView: View {
                     )
                     .font(.headline)
                     .foregroundColor(.white)
-                    .background(Color(UIColor(red: 0.76, green: 0.76, blue: 0.76, alpha: 1.00)))
+                    .background(Color(UIColor(red: 0.29, green: 0.29, blue: 0.29, alpha: 1.00)))
                     .cornerRadius(5)
                     .padding()
                     Spacer()

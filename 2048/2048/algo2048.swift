@@ -12,9 +12,9 @@ struct Tuile {
     var tuileEvo: Bool
 }
 
-class Jeu2048 {
+class Jeu2048: ObservableObject {
     let grideSize = 4
-    var grid: [[Tuile]] = []
+    @Published var grid: [[Tuile]] = []
     var score = 0
     
     init() {
