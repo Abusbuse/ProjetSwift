@@ -10,7 +10,7 @@ import SwiftUI
 struct GameView: View {
     @StateObject private var game = Jeu2048();
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+  
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
