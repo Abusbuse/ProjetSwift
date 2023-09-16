@@ -83,7 +83,7 @@ struct GameView: View {
                                             .layoutPriority(1)
                                         if (game.grid[y][x].value != 0) {
                                             Text(String(game.grid[y][x].value))
-                                            .foregroundColor(game.grid[y][x].value == 64 ? Color.white : Color.black)
+                                            .foregroundColor(game.grid[y][x].value >= 64 ? Color.white : Color.black)
                                         }
                                     }
                                 }
