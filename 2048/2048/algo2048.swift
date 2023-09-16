@@ -41,22 +41,26 @@ class Jeu2048: ObservableObject {
     // Fonction qui permet de gérer le mouvement dans les 4 directions
     func move(direction: Direction) {
         switch direction {
-        case .up:
-            moveUp()
-            generateRandomTuile()
-        case .down:
-            moveDown()
-            generateRandomTuile()
-        case .left:
-            moveLeft()
-            generateRandomTuile()
-        case .right:
-            moveRight()
-            generateRandomTuile()
-        default:
-            break
+            case .up:
+                moveUp()
+                generateRandomTuile()
+            case .down:
+                moveDown()
+                generateRandomTuile()
+            case .left:
+                moveLeft()
+                generateRandomTuile()
+            case .right:
+                moveRight()
+                generateRandomTuile()
         }
-
+        if (!isWin()) {
+            if (isLose()) {
+                print("Vous avez perdu GROS NUL BOUH TU PUES")
+            }
+        } else {
+            print("Vous avez gagné gnnnneuh")
+        }
     }
 
     // Fonction qui va déplacer les tuiles vers le haut
@@ -65,13 +69,13 @@ class Jeu2048: ObservableObject {
             for row in 1..<grideSize {
                 if grid[row][col].value != 0 {
                     var nextRow = row - 1
-                    while nextRow >= 0 && grid[nextRow][col].value == 0 {
+                    while nextRow > 0 && grid[nextRow][col].value == 0 {
                         nextRow -= 1
                     }
                     if nextRow >= 0 {
                         if grid[nextRow][col].value == grid[row][col].value {
                             mergeTuile(row: nextRow, col: col, nextRow: row, nextCol: col)
-                        } else {
+                        } else if grid[nextRow][col].value > 0 {
                             nextRow += 1
                         }
                     }
@@ -90,13 +94,13 @@ class Jeu2048: ObservableObject {
             for row in (0..<grideSize - 1).reversed() {
                 if grid[row][col].value != 0 {
                     var nextRow = row + 1
-                    while nextRow < grideSize && grid[nextRow][col].value == 0 {
+                    while nextRow < grideSize - 1 && grid[nextRow][col].value == 0 {
                         nextRow += 1
                     }
                     if nextRow < grideSize {
                         if grid[nextRow][col].value == grid[row][col].value {
                             mergeTuile(row: nextRow, col: col, nextRow: row, nextCol: col)
-                        } else {
+                        } else if grid[nextRow][col].value > 0 {
                             nextRow -= 1
                         }
                     }
@@ -115,13 +119,13 @@ class Jeu2048: ObservableObject {
             for col in 1..<grideSize {
                 if grid[row][col].value != 0 {
                     var nextCol = col - 1
-                    while nextCol >= 0 && grid[row][nextCol].value == 0 {
+                    while nextCol > 0 && grid[row][nextCol].value == 0 {
                         nextCol -= 1
                     }
                     if nextCol >= 0 {
                         if grid[row][nextCol].value == grid[row][col].value {
                             mergeTuile(row: row, col: nextCol, nextRow: row, nextCol: col)
-                        } else {
+                        } else if grid[row][nextCol].value > 0 {
                             nextCol += 1
                         }
                     }
@@ -140,13 +144,13 @@ class Jeu2048: ObservableObject {
             for col in (0..<grideSize - 1).reversed() {
                 if grid[row][col].value != 0 {
                     var nextCol = col + 1
-                    while nextCol < grideSize && grid[row][nextCol].value == 0 {
+                    while nextCol < grideSize - 1 && grid[row][nextCol].value == 0 {
                         nextCol += 1
                     }
                     if nextCol < grideSize {
                         if grid[row][nextCol].value == grid[row][col].value {
                             mergeTuile(row: row, col: nextCol, nextRow: row, nextCol: col)
-                        } else {
+                        } else if grid[row][nextCol].value > 0 {
                             nextCol -= 1
                         }
                     }
@@ -211,6 +215,8 @@ class Jeu2048: ObservableObject {
                 grid[row][col].tuileEvo = false
             }
         }
+        grid[0][0].value = 1024
+        grid[0][1].value = 1024
         generateRandomTuile()
         generateRandomTuile()
     }
