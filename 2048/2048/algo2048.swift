@@ -216,8 +216,6 @@ class Jeu2048: ObservableObject {
                 grid[row][col].tuileEvo = false
             }
         }
-        grid[0][0].value = 1024
-        grid[0][1].value = 1024
         generateRandomTuile()
         generateRandomTuile()
     }

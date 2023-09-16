@@ -93,7 +93,6 @@ struct GameView: View {
                         game.reset()
                     }.gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
                         .onEnded { value in
-                            print(value.translation)
                             switch (value.translation.width, value.translation.height) {
                                 case (...0, -30...30):  game.move(direction: .left)
                                 case (0..., -30...30):  game.move(direction: .right)
