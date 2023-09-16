@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct GameView: View {
     @StateObject private var game = Jeu2048();
