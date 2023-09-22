@@ -133,6 +133,19 @@ struct GameView: View {
         }
         .navigationBarTitle("")
         .navigationBarHidden(true)
+        .popup(isPresented: $game.finished) {
+            if (game.isWin()) {
+                Text("POPUP victoire")
+                    .frame(width: 200, height: 100)
+                    .background(Color(red: 0.9, green: 0.9, blue: 0.6))
+                    .cornerRadius(20.0)
+            } else if (game.isLose()) {
+                Text("POPUP DÉFAITE LOOSERRRRR")
+                    .frame(width: 200, height: 100)
+                    .background(Color(red: 0.9, green: 0.9, blue: 0.6))
+                    .cornerRadius(20.0)
+            }
+        }
     }
 }
 

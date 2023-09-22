@@ -17,6 +17,7 @@ class Jeu2048: ObservableObject {
     let grideSize = 4
     @Published var grid: [[Tuile]] = []
     @Published var score: Int = 0
+    @Published var finished: Bool = false
     
     init() {
         for _ in 0..<grideSize {
@@ -52,59 +53,18 @@ class Jeu2048: ObservableObject {
         switch direction {
             case .up:
                 moveUp()
-                if (!isWin()) {
-                    if (isLose()) {
-                        print("Vous avez perdu GROS NUL BOUH TU PUES")
-                        break
-                    }
-                } else {
-                    print("Vous avez gagné gnnnneuh")
-                    break
-                }
-                generateRandomTuile()
             case .down:
                 moveDown()
-                if (!isWin()) {
-                    if (isLose()) {
-                        print("Vous avez perdu GROS NUL BOUH TU PUES")
-                        break
-                    }
-                } else {
-                    print("Vous avez gagné gnnnneuh")
-                    break
-                }
-                generateRandomTuile()
             case .left:
                 moveLeft()
-                if (!isWin()) {
-                    if (isLose()) {
-                        print("Vous avez perdu GROS NUL BOUH TU PUES")
-                        break
-                    }
-                } else {
-                    print("Vous avez gagné gnnnneuh")
-                    break
-                }
-                generateRandomTuile()
             case .right:
                 moveRight()
-                if (!isWin()) {
-                    if (isLose()) {
-                        print("Vous avez perdu GROS NUL BOUH TU PUES")
-                        break
-                    }
-                } else {
-                    print("Vous avez gagné gnnnneuh")
-                    break
-                }
-                generateRandomTuile()
+            default:
+                return
         }
-        if (!isWin()) {
-            if (isLose()) {
-                print("Vous avez perdu GROS NUL BOUH TU PUES")
-            }
-        } else {
-            print("Vous avez gagné gnnnneuh")
+        generateRandomTuile()
+        if (isWin() || isLose()) {
+            finished = true
         }
     }
 
@@ -271,10 +231,23 @@ class Jeu2048: ObservableObject {
                 grid[row][col].tuileEvo = false
             }
         }
-        // grid[0][0].value = 1024
-        // grid[0][1].value = 1024
         generateRandomTuile()
         generateRandomTuile()
+        // spawnWin()
+    }
+
+    func spawnWin() {
+        grid[3][3].value = 1024
+        grid[3][2].value = 512
+        grid[3][1].value = 256
+        grid[3][0].value = 128
+        grid[2][0].value = 64
+        grid[2][1].value = 32
+        grid[2][2].value = 16
+        grid[2][3].value = 8
+        grid[1][3].value = 4
+        grid[1][2].value = 2
+        grid[1][1].value = 2
     }
 
     enum Direction {
