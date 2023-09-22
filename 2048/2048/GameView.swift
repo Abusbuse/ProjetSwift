@@ -53,7 +53,7 @@ struct GameView: View {
 
         }
     }
-  
+
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
@@ -135,6 +135,7 @@ struct GameView: View {
         .navigationBarHidden(true)
         .popup(isPresented: $game.finished) {
             VStack {
+                Spacer()
                 Text(game.isWin() ? "Victoire !" : game.isLose() ? "Défaite !" : "")
                     .font(.title)
                     .padding()
@@ -142,8 +143,16 @@ struct GameView: View {
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding()
-
-                //Espacement léger
+                AsyncImage(
+                    url: URL(string: game.catPic),
+                    scale: 2.5
+                )
+                    // Max width of 300
+                    .frame(width: 350)
+                    .cornerRadius(10)
+                    .padding()
+                // Espacement léger
+                Spacer()
                 Spacer()
                 Button(
                     action: {
@@ -160,7 +169,8 @@ struct GameView: View {
                 .cornerRadius(10)
                 .padding()
             }
-            .frame(width: 350, height: 300)
+            // Takes the whole screen
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(game.isWin() ? Color(UIColor(red: 0.86, green: 1.00, blue: 0.89, alpha: 0.90)) : game.isLose() ? Color(UIColor(red: 0.83, green: 0.52, blue: 0.56, alpha: 0.90)) : Color(red: 0.80, green: 0.80, blue: 0.80))
             .cornerRadius(20.0)
         }

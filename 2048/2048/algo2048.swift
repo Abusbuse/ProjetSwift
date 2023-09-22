@@ -5,6 +5,7 @@
 //  Created by Gregory Wittmann on 9/15/23.
 //
 
+import Alamofire
 import Foundation
 import Combine
 
@@ -18,6 +19,7 @@ class Jeu2048: ObservableObject {
     @Published var grid: [[Tuile]] = []
     @Published var score: Int = 0
     @Published var finished: Bool = false
+    @Published var catPic: String = "https://cdn2.thecatapi.com/images/MjAxMDc4OA.jpg"
     
     init() {
         for _ in 0..<grideSize {
@@ -64,6 +66,7 @@ class Jeu2048: ObservableObject {
         }
         generateRandomTuile()
         if (isWin() || isLose()) {
+            prout()
             finished = true
         }
     }
@@ -233,14 +236,24 @@ class Jeu2048: ObservableObject {
                 grid[row][col].tuileEvo = false
             }
         }
-        //twoGenerate()
-        spawnloose()
-        //spawnWin()
+        generateRandomTuile()
+        generateRandomTuile()
+        // spawnloose()
+        // spawnWin()
     }
 
     func spawnWin() {
         grid[3][3].value = 1024
-        grid[3][2].value = 1024
+        grid[3][2].value = 512
+        grid[3][1].value = 256
+        grid[3][0].value = 128
+        grid[2][0].value = 64
+        grid[2][1].value = 32
+        grid[2][2].value = 16
+        grid[2][3].value = 8
+        grid[1][3].value = 4
+        grid[1][2].value = 2
+        grid[1][1].value = 2
     }
 
     func spawnloose() {
@@ -255,20 +268,44 @@ class Jeu2048: ObservableObject {
         grid[2][3].value = 256
         grid[1][3].value = 512
         grid[1][2].value = 1024
-        grid[1][1].value = 2045
-        grid[1][0].value = 2040
-        grid[0][0].value = 2030
-        grid[0][1].value = 2020
-        grid[0][2].value = 2010
-        grid[0][3].value = 2000
-    }
-
-    func twoGenerate() {
-        generateRandomTuile()
-        generateRandomTuile()
+        grid[1][1].value = 2
+        grid[1][0].value = 4
+        grid[0][0].value = 8
+        grid[0][1].value = 16
+        grid[0][2].value = 32
+        grid[0][3].value = 64
     }
 
     enum Direction {
         case up, down, left, right
+    }
+    
+    func getCatPicture(completion: @escaping (AFResult<String>) -> Void) {
+        AF.request("https://api.thecatapi.com/v1/images/search").responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                if let jsonArray = value as? [[String: Any]], let firstResult = jsonArray.first {
+                    if let urlString = firstResult["url"] as? String {
+                        completion(.success(urlString))
+                    }
+                }
+            case .failure(let error):
+                print(error)
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func prout() {
+        self.getCatPicture {
+            result in
+            switch result {
+            case .success(let url):
+                self.catPic = url
+                
+            case .failure(let err):
+                self.catPic = "https://cdn2.thecatapi.com/images/MjAxMDc4OA.jpg"
+            }
+        }
     }
 }
