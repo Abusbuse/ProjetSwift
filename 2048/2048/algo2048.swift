@@ -66,7 +66,7 @@ class Jeu2048: ObservableObject {
         }
         generateRandomTuile()
         if (isWin() || isLose()) {
-            prout()
+            updatePic()
             finished = true
         }
     }
@@ -238,8 +238,8 @@ class Jeu2048: ObservableObject {
         }
         generateRandomTuile()
         generateRandomTuile()
-        // spawnloose()
-        // spawnWin()
+//         spawnloose()
+//         spawnWin()
     }
 
     func spawnWin() {
@@ -296,7 +296,7 @@ class Jeu2048: ObservableObject {
         }
     }
     
-    func prout() {
+    func updatePic() {
         self.getCatPicture {
             result in
             switch result {
