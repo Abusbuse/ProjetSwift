@@ -28,8 +28,15 @@ class Jeu2048: ObservableObject {
         }
     }
 
+    func incrScore(v: Int) {
+        score += v
+    }
+
     // fonction qui permet de faire apparaitre 2 tuiles de valeur 2 ou 4 aléatoirement
     func generateRandomTuile() {
+        if (isFull() || isLose()) {
+            return
+        }
         var row = Int.random(in: 0..<grideSize)
         var col = Int.random(in: 0..<grideSize)
         while grid[row][col].value != 0 {
@@ -37,6 +44,7 @@ class Jeu2048: ObservableObject {
             col = Int.random(in: 0..<grideSize)
         }
         grid[row][col].value = Int.random(in: 1..<3) * 2
+        incrScore(v: grid[row][col].value)
     }
 
     // Fonction qui permet de gérer le mouvement dans les 4 directions
@@ -44,15 +52,51 @@ class Jeu2048: ObservableObject {
         switch direction {
             case .up:
                 moveUp()
+                if (!isWin()) {
+                    if (isLose()) {
+                        print("Vous avez perdu GROS NUL BOUH TU PUES")
+                        break
+                    }
+                } else {
+                    print("Vous avez gagné gnnnneuh")
+                    break
+                }
                 generateRandomTuile()
             case .down:
                 moveDown()
+                if (!isWin()) {
+                    if (isLose()) {
+                        print("Vous avez perdu GROS NUL BOUH TU PUES")
+                        break
+                    }
+                } else {
+                    print("Vous avez gagné gnnnneuh")
+                    break
+                }
                 generateRandomTuile()
             case .left:
                 moveLeft()
+                if (!isWin()) {
+                    if (isLose()) {
+                        print("Vous avez perdu GROS NUL BOUH TU PUES")
+                        break
+                    }
+                } else {
+                    print("Vous avez gagné gnnnneuh")
+                    break
+                }
                 generateRandomTuile()
             case .right:
                 moveRight()
+                if (!isWin()) {
+                    if (isLose()) {
+                        print("Vous avez perdu GROS NUL BOUH TU PUES")
+                        break
+                    }
+                } else {
+                    print("Vous avez gagné gnnnneuh")
+                    break
+                }
                 generateRandomTuile()
         }
         if (!isWin()) {
@@ -169,7 +213,7 @@ class Jeu2048: ObservableObject {
         grid[nextRow][nextCol].value *= 2
         grid[nextRow][nextCol].tuileEvo = true
         grid[row][col].value = 0
-        score += grid[nextRow][nextCol].value
+        incrScore(v: grid[nextRow][nextCol].value)
     }
 
     // Fonction qui permet de savoir si le joueur a gagner
@@ -201,6 +245,17 @@ class Jeu2048: ObservableObject {
                     return false
                 }
                 if col < grideSize - 1 && grid[row][col].value == grid[row][col + 1].value {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    func isFull() -> Bool {
+        for row in 0..<grideSize {
+            for col in 0..<grideSize {
+                if grid[row][col].value == 0 {
                     return false
                 }
             }

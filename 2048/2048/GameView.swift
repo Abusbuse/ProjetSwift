@@ -64,7 +64,7 @@ struct GameView: View {
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .padding()
-                        Text("Score: 0")
+                        Text("Score: " + String(game.score))
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding()
