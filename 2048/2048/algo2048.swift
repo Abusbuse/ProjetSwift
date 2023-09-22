@@ -225,29 +225,47 @@ class Jeu2048: ObservableObject {
 
     // Fonction qui permet de renitialiser le jeu
     func reset() {
+        finished = false
+        score = 0
         for row in 0..<grideSize {
             for col in 0..<grideSize {
                 grid[row][col].value = 0
                 grid[row][col].tuileEvo = false
             }
         }
-        generateRandomTuile()
-        generateRandomTuile()
-        // spawnWin()
+        //twoGenerate()
+        spawnloose()
+        //spawnWin()
     }
 
     func spawnWin() {
         grid[3][3].value = 1024
-        grid[3][2].value = 512
-        grid[3][1].value = 256
-        grid[3][0].value = 128
-        grid[2][0].value = 64
-        grid[2][1].value = 32
-        grid[2][2].value = 16
-        grid[2][3].value = 8
-        grid[1][3].value = 4
-        grid[1][2].value = 2
-        grid[1][1].value = 2
+        grid[3][2].value = 1024
+    }
+
+    func spawnloose() {
+        //grille pour perdre (toutes les tuiles sont différentes)
+        grid[3][3].value = 2
+        grid[3][2].value = 4
+        grid[3][1].value = 8
+        grid[3][0].value = 16
+        grid[2][0].value = 32
+        grid[2][1].value = 64
+        grid[2][2].value = 128
+        grid[2][3].value = 256
+        grid[1][3].value = 512
+        grid[1][2].value = 1024
+        grid[1][1].value = 2045
+        grid[1][0].value = 2040
+        grid[0][0].value = 2030
+        grid[0][1].value = 2020
+        grid[0][2].value = 2010
+        grid[0][3].value = 2000
+    }
+
+    func twoGenerate() {
+        generateRandomTuile()
+        generateRandomTuile()
     }
 
     enum Direction {

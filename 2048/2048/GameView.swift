@@ -134,17 +134,35 @@ struct GameView: View {
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .popup(isPresented: $game.finished) {
-            if (game.isWin()) {
-                Text("POPUP victoire")
-                    .frame(width: 200, height: 100)
-                    .background(Color(red: 0.9, green: 0.9, blue: 0.6))
-                    .cornerRadius(20.0)
-            } else if (game.isLose()) {
-                Text("POPUP DÉFAITE LOOSERRRRR")
-                    .frame(width: 200, height: 100)
-                    .background(Color(red: 0.9, green: 0.9, blue: 0.6))
-                    .cornerRadius(20.0)
+            VStack {
+                Text(game.isWin() ? "Victoire !" : game.isLose() ? "Défaite !" : "")
+                    .font(.title)
+                    .padding()
+                Text("Score: " + String(game.score))
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .padding()
+
+                //Espacement léger
+                Spacer()
+                Button(
+                    action: {
+                        game.reset()
+                    },
+                    label: {
+                        Text("Recommencer")
+                        .padding(10)
+                    }
+                )
+                //blanc
+                .background(Color(UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.00)))
+                .foregroundColor(.black)
+                .cornerRadius(10)
+                .padding()
             }
+            .frame(width: 350, height: 300)
+            .background(game.isWin() ? Color(UIColor(red: 0.86, green: 1.00, blue: 0.89, alpha: 0.90)) : game.isLose() ? Color(UIColor(red: 0.83, green: 0.52, blue: 0.56, alpha: 0.90)) : Color(red: 0.80, green: 0.80, blue: 0.80))
+            .cornerRadius(20.0)
         }
     }
 }
